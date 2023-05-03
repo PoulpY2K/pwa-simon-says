@@ -8,16 +8,24 @@ export default defineConfig({
         vue(),
         VitePWA({
                 registerType: 'autoUpdate',
-                devOptions: {enabled: true},
+                includeAssets: ['favicon.ico', 'apple-touch-icon.png'],
                 manifest: {
-                    "name": "SimonSays",
-                    "short_name": "SimonSays",
-                    "start_url": ".",
-                    "scope": ".",
-                    "display": "standalone",
-                    "background_color": "#fff",
-                    "theme_color": "#fff",
-                    "description": "The best Simon Says game.",
+                    name: 'SimonSays',
+                    short_name: 'SimonSays',
+                    description: 'The best Simon Says on the web.',
+                    theme_color: '#ffffff',
+                    icons: [
+                        {
+                            src: 'pwa-192x192.png',
+                            sizes: '192x192',
+                            type: 'image/png'
+                        },
+                        {
+                            src: 'pwa-512x512.png',
+                            sizes: '512x512',
+                            type: 'image/png'
+                        }
+                    ]
                 }
             }
         )],
