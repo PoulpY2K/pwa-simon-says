@@ -1,30 +1,39 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import {computed, reactive, ref} from 'vue'
+
+const numberOfColorsRef = ref<number>(4)
+const halfNumberOfColorsComputed = computed(() => numberOfColorsRef.value / 2)
+const gridCols = computed(() => `grid-cols-` + halfNumberOfColorsComputed.value)
+const gridRows = computed(() => `grid-rows-` + halfNumberOfColorsComputed.value)
+
+function randomColor() { // min and max included
+    let r = Math.floor(Math.random() * 255)
+    let g = Math.floor(Math.random() * 255)
+    let b = Math.floor(Math.random() * 255)
+    let a = 0.3
+    return `rgba(${r},${g},${b},${a})`
+}
+
+console.log(randomColor())
+
+const simonTiles = Array(halfNumberOfColorsComputed.value).fill(Array(halfNumberOfColorsComputed.value))
+
+function handleClick(event) {
+    console.log(event.target.value)
+}
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+    <div id="simon" class="w-screen h-screen flex justify-center items-center">
+        <div class="p-20 w-full h-full grid border border-red-600" :class="gridCols">
+            <div v-for="subTiles in simonTiles " :key="simonTiles.indexOf(subTiles)"
+                 class="grid border border-blue-600 bg-"
+                 :class="gridRows">
+                <button v-for="tile in subTiles" :key="subTiles.indexOf(tile)"
+                        class="w-full h-full border border-green-600" :style="'background-color: ' + randomColor()"
+                        @click="handleClick">
+                </button>
+            </div>
+        </div>
+    </div>
 </template>
-
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
